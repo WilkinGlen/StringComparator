@@ -3,7 +3,7 @@
 const string NotNullSpecifier = "¬¬NOTNULL¬¬";
 
 var expectedResponse = "{\"name\": \"John\", \"age\": \"¬¬NOTNULL¬¬\", \"address\": {\"city\": \"New York\", \"zipcode\": \"¬¬NOTNULL¬¬\"}, \"hobbies\": \"¬¬NOTNULL¬¬\"}";
-var actualResponse =   "{\"name\": \"John\", \"age\": 3, \"address\": {\"city\": \"New York\", \"zipcode\": \"WF44AB\"}, \"hobbies\": [\"reading\", \"swimming\", \"coding\"]}";
+var actualResponse =   "{\"name\": \"John\", \"age\": 3, \"address\": {\"city\": \"New York\", \"zipcode\": \"WF44AB\"}, \"hobbies\": []}";
 var expectedObject = JObject.Parse(expectedResponse);
 var actualObject = JObject.Parse(actualResponse);
 var areEqual = CompareJson(expectedObject, actualObject);
@@ -38,7 +38,9 @@ static bool CompareJson(JObject expectedJsonObject, JObject actualJsonObject)
                 }
                 else
                 {
-                    retVal = retVal && value1?.ToString() == NotNullSpecifier && (value2 is JArray || !string.IsNullOrEmpty(value2?.ToString()));
+                    //Needs fixing for arrays
+                    retVal = retVal && value1?.ToString() == NotNullSpecifier &&
+                        (value2 is JArray array && array != null) || !string.IsNullOrEmpty(value2?.ToString());
                 }
             }
         }
