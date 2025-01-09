@@ -9,6 +9,8 @@ var actualObject = JObject.Parse(actualResponse);
 var areEqual = CompareJson(expectedObject, actualObject);
 Console.WriteLine("Are JSON responses the same? " + areEqual);
 
+//if expected response text contains "¬¬NOTNULL¬¬" then call this if worked == false
+//Expected responses must be the FULL expected json if using "¬¬NOTNULL¬¬" as a placeholder
 static bool CompareJson(JObject expectedJsonObject, JObject actualJsonObject)
 {
     if (!JObject.DeepEquals(expectedJsonObject, actualJsonObject))
